@@ -1,4 +1,5 @@
 #include "types.h"
+#include "stat.h"
 #include "user.h"
 #include "semaphore.h"
 #define SEM_BARRIER 0
@@ -16,7 +17,6 @@ main(int argc, char *argv[])
     }
     sem_close(SEM_BARRIER);
   }
-  
+
   exit();
 }
-

@@ -89,3 +89,46 @@ sys_uptime(void)
   release(&tickslock);
   return xticks;
 }
+
+int
+sys_sem_open(void)
+{
+  int s, f, val;
+
+  if(argint(0, &s) < 0 || argint(1, &f) < 0 || argint(1, &val) < 0)
+    return -1;
+
+  return ssem_open(s, f, val);
+}
+
+int
+sys_sem_close(void)
+{
+  int s;
+
+  if(argint(0, &s) < 0)
+    return -1;
+
+  return ssem_close(s);
+}
+
+int
+sys_sem_up(void)
+{
+  int s;
+
+  if(argint(0, &s) < 0)
+    return -1;
+  return ssem_up(s);
+}
+
+int
+sys_sem_down(void)
+{
+  int s;
+
+  if(argint(0, &s) < 0)
+    return -1;
+
+  return ssem_down(s);
+}

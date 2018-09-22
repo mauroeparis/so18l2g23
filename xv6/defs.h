@@ -121,6 +121,12 @@ int             wait(void);
 void            wakeup(void*);
 void            yield(void);
 
+// semaphore.c
+int             ssem_open(int semaphore, int flags, int value);
+int             ssem_close(int semaphore);
+int             ssem_up(int semaphore);
+int             ssem_down(int semaphore);
+
 // swtch.S
 void            swtch(struct context**, struct context*);
 
