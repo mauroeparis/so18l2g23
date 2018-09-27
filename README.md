@@ -51,3 +51,31 @@ close(sem) {
 ```
 
 Probamos implementando una función que la llamamos `init_sems()`, para iniciar todos los semáforos.
+
+### Día 3
+
+El kernel compila bien, pero no anda el barrier. Hoy vamos a intentarsolucionar el problema.
+
+**¿Por qúe da Zombies!?**  Esto es porque hace un fork.
+
+Los barrier tiran un error. Pusimos a dormir `barrier_echo`, pero no estaba despertando. Con el comando `Ctrl+P` vemos el estado de los procesos.
+
+El problema que teníamos era que en el `acquire` dentro del `while` que dormía el proceso restábamos el valor del semáforo. Pero debíamos hacerlo fuera del mismo.
+
+So far andando:
+
+```
+$ barrier_init
+
+$ barrier_echo hola mundo &
+
+$ barrier_rise
+
+hola mundo
+
+$ barrier_release
+$ barrier_init
+```
+**Error!**: La barrera ya fue inicializada. Eso quiere decir que `barrier_release` no lo hace bien.
+
+No estábamos contemplando el hecho de que al llegar a 0 el proc_counter, se cerrara.
