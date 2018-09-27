@@ -1,4 +1,4 @@
-# Lab2 Documentation
+# ROGER ROGER - Lab2 Documentation
 
 ## Procedimiento
 
@@ -18,4 +18,36 @@ struct {
 } t_sem_;
 ```
 
-Intentamos entender la diferencia entre Open y Create, después de debatir un poco, nos dimos cuenta que en este punto, el Open y el Close son simbólicos. 
+Intentamos entender la diferencia entre Open y Create, después de debatir un poco, nos dimos cuenta que en este punto, el Open y el Close son simbólicos.
+
+### Día 2
+
+Implementamos `OPEN` y empezamos a implementar `CLOSE`. Nos cuesta entender la estructura de `sleep` y `awake`. No son lo suficientemente claras las declaraciones de las cosas que os piden, como la diferencias.
+
+Debatimos mucho sobre exactamente cuáles eran las diferencias y los modos de implementar `up`, `down`.
+
+Intentamos entender el orden de ejecución de las funciones. Decidimos intentar con la siguiente lógica:
+
+```
+create(sem, val) {
+  if (proc_count != 0) {
+    error;
+  } else {
+    sem.val = val
+  }
+}
+
+open(sem) {
+  acquire(sem);
+  proc_count ++;
+  release(sem);
+}
+
+close(sem) {
+  acquire(sem);
+  proc_count --;
+  release(sem);
+}
+```
+
+Probamos implementando una función que la llamamos `init_sems()`, para iniciar todos los semáforos.
