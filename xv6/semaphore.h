@@ -8,7 +8,7 @@
 struct _sem_t{
   uint resorces;
   uint is_open;
-  uint proc_count;
+  int proc_count;
   struct spinlock slock;
 };
 

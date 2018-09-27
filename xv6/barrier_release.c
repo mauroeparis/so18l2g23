@@ -17,6 +17,5 @@ main(int argc, char *argv[])
     }
     sem_close(SEM_BARRIER);
   }
-
   exit();
 }

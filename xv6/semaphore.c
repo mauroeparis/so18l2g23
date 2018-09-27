@@ -9,7 +9,7 @@ init_sems(void)
 {
   for(int i = 0; i < 5; i++){
     sem_t s;
-    s.proc_count = 0;
+    s.proc_count = -1;
     sem_list[i] = s;
   }
 
@@ -24,7 +24,8 @@ ssem_open(int semaphore, int flags, int value)
   acquire(&sem_list[semaphore].slock);
   switch (flags) {
     case SEM_CREAT:
-      if(exists(semaphore)){
+      if(!exists(semaphore)){
+        sem_list[semaphore].proc_count = 0;
         release(&sem_list[semaphore].slock);
         return -1;
       }
@@ -65,10 +66,20 @@ ssem_close(int semaphore)
   En caso de error la función devuelve -1.
 */
   acquire(&sem_list[semaphore].slock);
-  if(exists(semaphore))
+  if(!exists(semaphore)) {
+    release(&sem_list[semaphore].slock);
     return -1;
+  }
+
+  if(sem_list[semaphore].proc_count == 1) {
+    sem_list[semaphore].proc_count = -1;
+
+    release(&sem_list[semaphore].slock);
+    return 0;
+  }
 
   int count = --(sem_list[semaphore].proc_count);
+
   release(&sem_list[semaphore].slock);
   return count;
 }
@@ -86,9 +97,10 @@ ssem_up(int semaphore)
     return -1;
   }
   sem_list[semaphore].resorces++;
-  wakeup(&sem_list[semaphore]);
 
+  wakeup(&sem_list[semaphore]);
   release(&sem_list[semaphore].slock);
+
   return 0;
 }
 
@@ -108,9 +120,10 @@ ssem_down(int semaphore)
     return -1;
   }
   while(sem_list[semaphore].resorces == 0) {
-    sem_list[semaphore].resorces--;
     sleep(&sem_list[semaphore], &sem_list[semaphore].slock);
   }
+
+  sem_list[semaphore].resorces--;
 
   release(&sem_list[semaphore].slock);
   return 0;
@@ -122,5 +135,5 @@ ssem_down(int semaphore)
 int
 exists(int semaphore)
 {
-  return sem_list[semaphore].proc_count != 0;
+  return sem_list[semaphore].proc_count != -1;
 }
