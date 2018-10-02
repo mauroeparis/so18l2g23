@@ -31,7 +31,7 @@ OBJS = \
 
 # Cross-compiling (e.g., on Mac OS X)
 # TOOLPREFIX = i386-jos-elf
-
+TOOLPREFIX = i386-elf-
 # Using native tools (e.g., on X86 Linux)
 #TOOLPREFIX =
 
@@ -186,6 +186,7 @@ UPROGS=\
 	_barrier_echo\
 	_barrier_release\
 	_barrier_rise\
+	_pingpong\
 
 fs.img: mkfs README $(UPROGS)
 	./mkfs fs.img README $(UPROGS)
@@ -258,7 +259,7 @@ EXTRA=\
 	printf.c umalloc.c\
 	barrier_init.c barrier_echo.c barrier_rise.c barrier_release.c\
 	README dot-bochsrc *.pl toc.* runoff runoff1 runoff.list\
-	.gdbinit.tmpl gdbutil\
+	.gdbinit.tmpl gdbutil pingpong.c\
 
 
 dist:

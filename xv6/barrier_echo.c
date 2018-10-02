@@ -11,7 +11,8 @@ main(int argc, char *argv[])
   	printf(1, "La barrera no esta activa\n");
   }else{
   	sem_down(SEM_BARRIER);
-  	for(int i = 1; i < argc; i++)
+    int i;
+  	for(i = 1; i < argc; i++)
     	printf(1, "%s%s", argv[i], i+1 < argc ? " " : "\n");
   	sem_close(SEM_BARRIER);
   }

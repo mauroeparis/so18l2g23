@@ -95,7 +95,7 @@ sys_sem_open(void)
 {
   int s, f, val;
 
-  if(argint(0, &s) < 0 || argint(1, &f) < 0 || argint(1, &val) < 0)
+  if(argint(0, &s) < 0 || argint(1, &f) < 0 || argint(2, &val) < 0)
     return -1;
 
   return ssem_open(s, f, val);

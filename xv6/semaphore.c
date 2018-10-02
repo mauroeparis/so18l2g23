@@ -7,7 +7,8 @@
 int
 init_sems(void)
 {
-  for(int i = 0; i < 5; i++){
+  int i;
+  for(i = 0; i < 5; i++){
     sem_t s;
     s.proc_count = -1;
     sem_list[i] = s;
@@ -113,12 +114,12 @@ ssem_down(int semaphore)
   Si semaphore no existe esto será considerado un error.
   En caso de éxito devuelve 0 y en caso de error -1.
   */
-
   acquire(&sem_list[semaphore].slock);
   if(!exists(semaphore)){
     release(&sem_list[semaphore].slock);
     return -1;
   }
+
   while(sem_list[semaphore].resorces == 0) {
     sleep(&sem_list[semaphore], &sem_list[semaphore].slock);
   }
