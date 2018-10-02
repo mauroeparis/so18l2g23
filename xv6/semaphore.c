@@ -72,13 +72,6 @@ ssem_close(int semaphore)
     return -1;
   }
 
-  if(sem_list[semaphore].proc_count == 1) {
-    sem_list[semaphore].proc_count = -1;
-
-    release(&sem_list[semaphore].slock);
-    return 0;
-  }
-
   int count = --(sem_list[semaphore].proc_count);
 
   release(&sem_list[semaphore].slock);

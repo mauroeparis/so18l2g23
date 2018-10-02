@@ -22,12 +22,11 @@ main(int argc, char *argv[])
     if(sem_open(SEM_PONG, SEM_CREAT, 0) == -1)
       printf(1, "La barrera 1 ya fue inicializada\n");
 
-    // open pingsem
-    sem_open(SEM_PING, SEM_OPEN, 1);
-    // open pongsem
-    sem_open(SEM_PONG, SEM_OPEN, 0);
 
-    if (fork() > 0) { // ping fork
+    if (fork() > 0) {
+      /* ping fork */
+      sem_open(SEM_PING, SEM_OPEN, 1);
+
       int i;
       for(i = 0; i < pingpong_count; i++) {
         // semping down()
@@ -39,7 +38,15 @@ main(int argc, char *argv[])
       }
       // close pongsem
       sem_close(SEM_PING);
-    } else { // pong fork
+      sem_close(SEM_PING);
+
+      // parent calls wait() to find if there are any exited process
+      wait();
+
+    } else {
+      /* ping fork */
+      sem_open(SEM_PONG, SEM_OPEN, 0);
+
       int j;
       for(j = 0; j < pingpong_count; j++) {
         // sempong down()
@@ -51,8 +58,8 @@ main(int argc, char *argv[])
       }
       // close pingsem
       sem_close(SEM_PONG);
+      sem_close(SEM_PONG);
     }
   }
-  wait();
   exit();
 }
