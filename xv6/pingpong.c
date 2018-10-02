@@ -47,6 +47,5 @@ main(int argc, char *argv[])
     // close pongsem
     sem_close(PONG);
   }
-  return 0;
   exit();
 }
