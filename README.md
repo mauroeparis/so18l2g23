@@ -101,3 +101,11 @@ Intentaremos implementar un `wait()` antes del *exit* de `pingpong.c` no tira "z
 Esto no funcionó. Tira un error al final.
 
 En el cambio que hicimos de `exists()` quedo mal implementado `ssem_open()`, pero estaba "andando" de casualidad porque nunca se ejecutaba el `sem_init()` (lo que inicia todos los semáforos en -1).
+
+### Día 6
+
+Al implementar el **Ping Pong** nos dimos cuenta que el `argint()` estaba mal implementado, entonces hacía cualquier cosa con los resorces que le pasábamos.
+
+Además hacíamos el `semclose()` antes del `exit()` lo que hacía que al hacerse un `fork()` antes de cerrarse, se cerraban dos veces los semáforos.
+
+Subimos al `wait()` al PING para que sólo el *padre* ejecute el ismo.
