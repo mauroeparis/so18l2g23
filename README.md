@@ -1,5 +1,17 @@
 # ROGER ROGER - Lab2 Documentation
 
+## Glosario de funciones
+
+`acquire(struct spinlock*)`: Espera el uso del **lock** hasta que está disponible.
+
+`release(struct spinlock*)`: Devuelve el uso del **lock** y se lo da a quien lo está esperando.
+
+`sleep(void*, struct spinlock*)`: Cambia el estado de un **proceso** a *dormido* y libera el **lock** en el canal.
+
+`wakeup(void *chan)`: Levanta todos los **procesos**.
+
+`argint(int n, int *ip)`: Busca el enésimo integer de la **instrucción** y lo guarda en una *ip*.
+
 ## Procedimiento
 
 ### Día 1
