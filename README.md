@@ -85,3 +85,19 @@ No estábamos contemplando el hecho de que al llegar a 0 el proc_counter, se cer
 Hubo un problema para implementar dos semáforos andando al mismo tiempo. El problema se debía a que el `barrier_init` llamaba siempre al mismo.
 
 Finalmente pudimos solucionar dicho problema.
+
+### Día 5
+
+Para hacer el programa **pingpong** primero escribimos un flujo del programa teniendo en cuenta cuando se tenia que habilitar tal o cual cosa para que no se repitieran **Pings** o **Pongs**.
+
+Pasamos de planear utilizar todos los semáforos disponibles a solo 1, a 2. Nos quedamos con la ultima imaginándolo como una intersección de dos calles en donde cuando un semáforo se pone en rojo, el otro en verde habilitándose uno al otro.
+
+También tuvimos que corregir una *syscall* porque estábamos tomando mal los argumentos con *argint*.
+
+Creemos que funciona cómo funciona *zombies*. Cuando un **child** hace *exit* se queda "el zombie" esperando que el padre espere por él y pueda morir en paz.
+
+Intentaremos implementar un `wait()` antes del *exit* de `pingpong.c` no tira "zombies!" al final!.
+
+Esto no funcionó. Tira un error al final.
+
+En el cambio que hicimos de `exists()` quedo mal implementado `ssem_open()`, pero estaba "andando" de casualidad porque nunca se ejecutaba el `sem_init()` (lo que inicia todos los semáforos en -1).
