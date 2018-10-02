@@ -25,12 +25,12 @@ ssem_open(int semaphore, int flags, int value)
   acquire(&sem_list[semaphore].slock);
   switch (flags) {
     case SEM_CREAT:
-      if(!exists(semaphore)){
-        sem_list[semaphore].proc_count = 0;
+      if(exists(semaphore)){
         release(&sem_list[semaphore].slock);
         return -1;
       }
 
+      sem_list[semaphore].proc_count = 0;
       sem_list[semaphore].resorces = value;
       release(&sem_list[semaphore].slock);
       return 0;

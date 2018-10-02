@@ -13,7 +13,7 @@ main(int argc, char *argv[])
   }else{
     processes = sem_close(SEM_BARRIER);
     int i;
-    for(i=0; i < processes-1; i++){
+    for(i = 0; i < processes; i++){
       sem_up(SEM_BARRIER);
     }
     sem_close(SEM_BARRIER);
