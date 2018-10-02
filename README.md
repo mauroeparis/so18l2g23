@@ -79,3 +79,9 @@ $ barrier_init
 **Error!**: La barrera ya fue inicializada. Eso quiere decir que `barrier_release` no lo hace bien.
 
 No estábamos contemplando el hecho de que al llegar a 0 el proc_counter, se cerrara.
+
+### Día 4
+
+Hubo un problema para implementar dos semáforos andando al mismo tiempo. El problema se debía a que el `barrier_init` llamaba siempre al mismo.
+
+Finalmente pudimos solucionar dicho problema.
