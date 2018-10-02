@@ -23,7 +23,7 @@ main(int argc, char *argv[])
     sem_open(PONG, SEM_OPEN, 0);
     if (fork() > 0) { // ping fork
       int i;
-      for(i=0; i < pingpong_count; i++){
+      for(i=0; i < pingpong_count; i++) {
         // semping down()
         sem_down(PING);
         // print ("PING")
@@ -31,9 +31,11 @@ main(int argc, char *argv[])
         // sempong up()
         sem_up(PONG);
       }
+      // close pongsem
+      sem_close(PING);
     } else { // pong fork
       int j;
-      for(j=0; j < pingpong_count; j++){
+      for(j=0; j < pingpong_count; j++) {
         // sempong down()
         sem_down(PONG);
         // print ("PONG")
@@ -41,11 +43,9 @@ main(int argc, char *argv[])
         // semping up()
         sem_up(PING);
       }
+      // close pingsem
+      sem_close(PONG);
     }
-    // close pingsem
-    sem_close(PING);
-    // close pongsem
-    sem_close(PONG);
   }
   exit();
 }
